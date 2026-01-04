@@ -167,7 +167,11 @@ if (bilibiliItems.length > 0) {
 
 // 统计数据
 const totalCount = animeList.length;
-const averageRating = (animeList.reduce((sum, a) => sum + (Number(a.rating) || 0), 0) / totalCount).toFixed(1);
+// 计算 TMDB 平均分 (使用原始 TMDB 数据，避免 Bilibili 数据拉低评分)
+const tmdbItems = animeData.flatMap((group) => group.items || []);
+const averageRating = tmdbItems.length > 0 
+  ? (tmdbItems.reduce((sum, item) => sum + (Number(item.vote_average) || 0), 0) / tmdbItems.length).toFixed(1) 
+  : "0.0";
 ---
 
 <BaseLayout title="追番列表">
@@ -320,7 +324,7 @@ const averageRating = (animeList.reduce((sum, a) => sum + (Number(a.rating) || 0
                   </span>
                   <span class="flex items-center gap-1">
                     <Icon name="lucide:heart" class="w-3 h-3" />
-                    TMDB
+                    {anime.source === 'bilibili' ? 'Bilibili' : 'TMDB'}
                   </span>
                 </div>
               </div>
