@@ -561,8 +561,8 @@ export function ConfigPage() {
                                                     <label className="label"><span className="label-text text-xs text-base-content/60">Bilibili UID</span></label>
                                                     <input type="text" className="input input-bordered w-full bg-base-100 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" 
                                                         placeholder="例如：1536411565"
-                                                        value={parsedConfig?.site?.bilibili?.uid || ''} 
-                                                        onChange={e => updateConfigValue('site.bilibili.uid', e.target.value)} />
+                                                        value={parsedConfig?.anime?.bilibili?.uid || parsedConfig?.site?.bilibili?.uid || ''} 
+                                                        onChange={e => updateConfigValue('anime.bilibili.uid', e.target.value)} />
                                                 </div>
                                             </div>
                                         </div>
@@ -579,14 +579,14 @@ export function ConfigPage() {
                                                 <div className="form-control w-full">
                                                     <label className="label"><span className="label-text text-xs text-base-content/60">API Key</span></label>
                                                     <input type="text" className="input input-bordered w-full bg-base-100 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" 
-                                                        value={parsedConfig?.site?.tmdb?.apiKey || ''} 
-                                                        onChange={e => updateConfigValue('site.tmdb.apiKey', e.target.value)} />
+                                                        value={parsedConfig?.anime?.tmdb?.apiKey || parsedConfig?.site?.tmdb?.apiKey || ''} 
+                                                        onChange={e => updateConfigValue('anime.tmdb.apiKey', e.target.value)} />
                                                 </div>
                                                 <div className="form-control w-full">
                                                     <label className="label"><span className="label-text text-xs text-base-content/60">List ID</span></label>
                                                     <input type="text" className="input input-bordered w-full bg-base-100 focus:border-primary focus:ring-2 focus:ring-primary/20 transition-all" 
-                                                        value={parsedConfig?.site?.tmdb?.listId || ''} 
-                                                        onChange={e => updateConfigValue('site.tmdb.listId', e.target.value)} />
+                                                        value={parsedConfig?.anime?.tmdb?.listId || parsedConfig?.site?.tmdb?.listId || ''} 
+                                                        onChange={e => updateConfigValue('anime.tmdb.listId', e.target.value)} />
                                                 </div>
                                             </div>
                                         </div>

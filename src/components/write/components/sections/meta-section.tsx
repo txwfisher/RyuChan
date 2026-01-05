@@ -11,7 +11,12 @@ type MetaSectionProps = {
 
 export function MetaSection({ delay = 0, categories = [] }: MetaSectionProps) {
 	const { form, updateForm } = useWriteStore()
-    const [isCustomCategory, setIsCustomCategory] = useState(false)
+    // 如果当前选中的分类不在预设列表中，且有值，则默认为自定义模式
+    const [isCustomCategory, setIsCustomCategory] = useState(() => {
+        if (form.categories.length === 0) return false
+        // 如果有多个分类，或者是单个分类但不在预设列表中，则为自定义模式
+        return form.categories.length > 1 || (form.categories.length === 1 && !categories.includes(form.categories[0]))
+    })
 
     const categoryOptions = [
         ...categories.map(c => ({ value: c, label: c })),

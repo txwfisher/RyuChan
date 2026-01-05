@@ -11,9 +11,6 @@ site:
   date_format: ddd MMM DD YYYY
   blog:
     pageSize: 8
-  tmdb:
-    apiKey: 08a6bef260044f70c150251c79f2e476
-    listId: '8556173'
   banner:
     enableRandom: true
     randomUrl: https://t.alcy.cc/lai
@@ -81,8 +78,18 @@ site:
       href: /about
       svg: material-symbols:info-outline-rounded
       target: _self
+anime:
   bilibili:
     uid: '1536411565'
+  tmdb:
+    apiKey: 08a6bef260044f70c150251c79f2e476
+    listId: '8556173'
+github:
+  owner: kobaridev
+  repo: RyuChan
+  branch: main
+  appId: '-'
+  encryptKey: wudishiduomejimo
 user:
   name: RyuChan
   site: https://hub.xiaozhangya.xin

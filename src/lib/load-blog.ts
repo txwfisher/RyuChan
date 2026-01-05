@@ -1,5 +1,5 @@
 import { getAuthToken, hasAuth } from './auth'
-import { readTextFileFromRepo } from './github-client'
+import { readTextFileFromRepo, listRepoFilesRecursive } from './github-client'
 import { GITHUB_CONFIG } from '@/consts'
 import { parseFrontmatter } from './frontmatter'
 import type { PublishForm } from '@/components/write/types'
@@ -21,6 +21,27 @@ export async function loadBlog(slug: string): Promise<{ form: PublishForm, cover
     if (!content) {
          path = `src/content/blog/${slug}.mdx`
          content = await readTextFileFromRepo(token, GITHUB_CONFIG.OWNER, GITHUB_CONFIG.REPO, path, GITHUB_CONFIG.BRANCH)
+    }
+
+    // Fallback: Case-insensitive search
+    if (!content) {
+        try {
+            const files = await listRepoFilesRecursive(token, GITHUB_CONFIG.OWNER, GITHUB_CONFIG.REPO, 'src/content/blog', GITHUB_CONFIG.BRANCH)
+            const targetMd = `/${slug}.md`.toLowerCase()
+            const targetMdx = `/${slug}.mdx`.toLowerCase()
+            
+            const foundPath = files.find(f => {
+                const lower = f.toLowerCase()
+                return lower.endsWith(targetMd) || lower.endsWith(targetMdx)
+            })
+
+            if (foundPath) {
+                path = foundPath
+                content = await readTextFileFromRepo(token, GITHUB_CONFIG.OWNER, GITHUB_CONFIG.REPO, path, GITHUB_CONFIG.BRANCH)
+            }
+        } catch (e) {
+            console.warn('Failed to list repo files for fallback search', e)
+        }
     }
 
     if (!content) {

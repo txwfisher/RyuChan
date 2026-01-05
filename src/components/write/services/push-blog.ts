@@ -20,9 +20,9 @@ export async function pushBlog(params: PushBlogParams): Promise<void> {
 
 	if (!form?.slug) throw new Error('需要 slug')
 
-	if (mode === 'edit' && originalSlug && originalSlug !== form.slug) {
-		throw new Error('编辑模式下不支持修改 slug，请保持原 slug 不变')
-	}
+	// if (mode === 'edit' && originalSlug && originalSlug !== form.slug) {
+	// 	throw new Error('编辑模式下不支持修改 slug，请保持原 slug 不变')
+	// }
 
 	const token = await getAuthToken()
 

@@ -174,7 +174,7 @@ export function WriteEditor() {
 					placeholder='slug（xx-xx）'
 					className='input input-bordered w-[200px] bg-base-100 focus:input-primary transition-all'
 					value={form.slug}
-					onChange={e => updateForm({ slug: e.target.value })}
+					onChange={e => updateForm({ slug: e.target.value.toLowerCase() })}
 				/>
 			</div>
 			<textarea
