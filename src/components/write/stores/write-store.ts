@@ -9,7 +9,8 @@ type WriteStore = {
 	// Mode state
 	mode: 'create' | 'edit'
 	originalSlug: string | null
-	setMode: (mode: 'create' | 'edit', originalSlug?: string) => void
+	originalFileFormat: 'md' | 'mdx' | null
+	setMode: (mode: 'create' | 'edit', originalSlug?: string, originalFileFormat?: 'md' | 'mdx') => void
 
 	// Form state
 	form: PublishForm
@@ -53,7 +54,8 @@ export const useWriteStore = create<WriteStore>((set, get) => ({
 	// Mode state
 	mode: 'create',
 	originalSlug: null,
-	setMode: (mode, originalSlug) => set({ mode, originalSlug: originalSlug || null }),
+	originalFileFormat: null,
+	setMode: (mode, originalSlug, originalFileFormat) => set({ mode, originalSlug: originalSlug || null, originalFileFormat }),
 
 	// Form state
 	form: { ...initialForm },
@@ -179,6 +181,7 @@ export const useWriteStore = create<WriteStore>((set, get) => ({
 			set({
 				mode: 'edit',
 				originalSlug: slug,
+				originalFileFormat: form.fileFormat,
 				form: {
 					...form,
 					date: form.date ? form.date : formatDateTimeLocal(),
@@ -215,6 +218,7 @@ export const useWriteStore = create<WriteStore>((set, get) => ({
 		set({
 			mode: 'create',
 			originalSlug: null,
+			originalFileFormat: null,
 			form: { ...initialForm, date: formatDateTimeLocal() },
 			images: [],
 			cover: null

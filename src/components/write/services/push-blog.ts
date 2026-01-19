@@ -13,10 +13,11 @@ export type PushBlogParams = {
     images?: ImageItem[]
     mode?: 'create' | 'edit'
     originalSlug?: string | null
+    originalFileFormat?: 'md' | 'mdx' | null
 }
 
 export async function pushBlog(params: PushBlogParams): Promise<void> {
-    const { form, cover, images, mode = 'create', originalSlug } = params
+    const { form, cover, images, mode = 'create', originalSlug, originalFileFormat } = params
 
     if (!form?.slug) throw new Error('需要 slug')
 
@@ -113,6 +114,17 @@ export async function pushBlog(params: PushBlogParams): Promise<void> {
             type: 'blob',
             sha: mdBlob.sha
         })
+
+        // 如果是编辑模式且文件格式发生了变化，删除原文件
+        if (mode === 'edit' && originalFileFormat && originalFileFormat !== form.fileFormat) {
+            // 在Git中，删除文件是通过添加一个sha为null的条目来实现的
+            treeItems.push({
+                path: `src/content/blog/${form.slug}.${originalFileFormat}`,
+                mode: '100644',
+                type: 'blob',
+                sha: null // 空sha表示删除文件
+            })
+        }
 
         toast.loading('🌳 正在构建文件树...', { id: toastId })
         const treeData = await createTree(token, GITHUB_CONFIG.OWNER, GITHUB_CONFIG.REPO, treeItems, latestCommitSha)
